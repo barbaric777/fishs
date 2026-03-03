@@ -1,0 +1,74 @@
+body {
+  background-image: url(Vector.png);
+  background-size: cover;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: "Arial", sans-serif;
+}
+
+#game-ui {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  color: white;
+  border-radius: 10px;
+}
+
+#ocean {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+#line {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  background: #eee;
+  height: 0;
+  transition: height 0.1s linear;
+}
+#hook {
+  position: absolute;
+  bottom: 0;
+  width: 22px;
+  height: 30px;
+  border: 5px solid #7f8c8d;
+  border-top: 0;
+  border-radius: 0 0 12px 12px;
+}
+
+.fish {
+  position: absolute;
+  width: 200px;
+  height: 60px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  transition: transform 0.3s;
+}
+.bubble {
+  position: absolute;
+  bottom: -20px;
+  background: rgba(166, 215, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+  animation: rise linear forwards;
+}
+
+@keyframes rise {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
