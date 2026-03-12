@@ -48,8 +48,8 @@ body {
 
 .fish {
   position: absolute;
-  width: 200px;
-  height: 100px;
+  width: 150px;
+  height: 80px;
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -72,6 +72,7 @@ body {
     opacity: 0;
   }
 }
+
 
 
 
