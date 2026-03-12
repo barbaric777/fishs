@@ -116,4 +116,29 @@ function createBubble() {
 
 setInterval(createBubble, 300);
 
+  const fRect = fish.el.getBoundingClientRect();
+    if (
+      hookY > 50 &&
+      hRect.left < fRect.right &&
+      hRect.right > fRect.left &&
+      hRect.top < fRect.bottom &&
+      hRect.bottom > fRect.top
+    ) {
+
+
+   
+      const hookEl = document.getElementById("hook");
+      hookEl.classList.add("hook-catch");
+      setTimeout(() => hookEl.classList.remove("hook-catch"), 200);
+
+
+      balance += fish.price;
+      moneyEl.innerText = balance;
+      
+
+      fish.el.remove();
+      activeFishes.splice(index, 1);
+      
+
+    }
 
