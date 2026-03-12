@@ -48,7 +48,7 @@ body {
 
 .fish {
   position: absolute;
-  width: 1000px;
+  width: 100px;
   height: 80px;
   background-size: contain;
   background-repeat: no-repeat;
@@ -66,32 +66,6 @@ body {
   animation: rise linear forwards;
 }
 
-
-.catch-text {
-  position: absolute;
-  color: #f1c40f;
-  font-weight: bold;
-  font-size: 20px;
-  pointer-events: none;
-  animation: floatUp 0.8s ease-out forwards;
-  z-index: 1000;
-}
-
-@keyframes floatUp {
-  0% { transform: translateY(0); opacity: 1; }
-  100% { transform: translateY(-50px); opacity: 0; }
-}
-
-
-.hook-catch {
-  animation: shake 0.2s ease-in-out;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-}
 
 
 
