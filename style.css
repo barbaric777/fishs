@@ -49,7 +49,7 @@ body {
 .fish {
   position: absolute;
   width: 200px;
-  height: 80px;
+  height: 30px;
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -72,6 +72,7 @@ body {
     opacity: 0;
   }
 }
+
 
 
 
