@@ -8,9 +8,9 @@ let hookY = 0;
 let currentX = window.innerWidth / 2;
 
 const fishData = [
-  { price: 10, speed: 1.5, img: "fish.png" },
-  { price: 50, speed: 3, img: "fish2.png" },
-  { price: 150, speed: 8, img: "fish3.png" },
+  { price: 10, speed: 1.5, img: "fish.jpg" },
+  { price: 50, speed: 3, img: "fish2.jpg" },
+  { price: 150, speed: 8, img: "fish3.jpg" },
 ];
 
 const activeFishes = [];
@@ -115,3 +115,4 @@ function createBubble() {
 }
 
 setInterval(createBubble, 300);
+
