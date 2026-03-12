@@ -116,7 +116,7 @@ function createBubble() {
 
 setInterval(createBubble, 300);
 
-  const fRect = fish.el.getBoundingClientRect();
+    const fRect = fish.el.getBoundingClientRect();
     if (
       hookY > 50 &&
       hRect.left < fRect.right &&
@@ -124,14 +124,21 @@ setInterval(createBubble, 300);
       hRect.top < fRect.bottom &&
       hRect.bottom > fRect.top
     ) {
+      // 1. Создаем текст с ценой
+      const catchText = document.createElement("div");
+      catchText.className = "catch-text";
+      catchText.innerText = `+${fish.price} ₽`;
+      catchText.style.left = fRect.left + "px";
+      catchText.style.top = fRect.top + "px";
+      ocean.appendChild(catchText);
+      setTimeout(() => catchText.remove(), 800);
 
 
-   
       const hookEl = document.getElementById("hook");
       hookEl.classList.add("hook-catch");
       setTimeout(() => hookEl.classList.remove("hook-catch"), 200);
 
-
+      // 3. Обновляем баланс
       balance += fish.price;
       moneyEl.innerText = balance;
       
@@ -140,5 +147,9 @@ setInterval(createBubble, 300);
       activeFishes.splice(index, 1);
       
 
+      moneyEl.style.color = "#2ecc71";
+      setTimeout(() => (moneyEl.style.color = "white"), 300);
     }
+
+
 
