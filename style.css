@@ -74,16 +74,20 @@ body {
 }
 
 
+@keyframes floatUp {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-50px); opacity: 0; }
+}
 
+.hook-catch {
+  animation: shake 0.2s ease-in-out;
+}
 
-
-
-
-
-
-
-
-
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
 
 
 
