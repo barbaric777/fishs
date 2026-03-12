@@ -48,8 +48,8 @@ body {
 
 .fish {
   position: absolute;
-  width: 100px;
-  height: 80px;
+  width: 200px;
+  height: 60px;
   background-size: contain;
   background-repeat: no-repeat;
   pointer-events: none;
@@ -66,13 +66,9 @@ body {
   animation: rise linear forwards;
 }
 
-
-
-
-
-
-
-
-
-
-
+@keyframes rise {
+  to {
+    transform: translateY(-110vh);
+    opacity: 0;
+  }
+}
