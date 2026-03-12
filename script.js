@@ -115,4 +115,3 @@ function createBubble() {
 }
 
 setInterval(createBubble, 300);
-
