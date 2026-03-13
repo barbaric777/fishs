@@ -11,6 +11,7 @@ const fishData = [
   { price: 10, speed: 1.5, img: "fish.png" },
   { price: 50, speed: 3, img: "fish2.png" },
   { price: 150, speed: 8, img: "fish3.png" },
+  { price: -500, speed: 5, img: "danger.png" }, 
 ];
 
 const activeFishes = [];
@@ -69,7 +70,8 @@ function update() {
     fish.el.style.transform = `translate(${fish.x}px, ${fish.y}px) scaleX(${fish.dx > 0 ? -1 : 1})`;
 
     const fRect = fish.el.getBoundingClientRect();
-    if (
+    
+       if (
       hookY > 50 &&
       hRect.left < fRect.right &&
       hRect.right > fRect.left &&
@@ -78,12 +80,20 @@ function update() {
     ) {
       balance += fish.price;
       moneyEl.innerText = balance;
+      
+      // Логика цвета
+      if (fish.price < 0) {
+        moneyEl.style.color = "#ff4757"; 
+      } else {
+        moneyEl.style.color = "#2ecc71"; 
+      }
+
       fish.el.remove();
       activeFishes.splice(index, 1);
-      moneyEl.style.color = "#2ecc71";
+    
       setTimeout(() => (moneyEl.style.color = "white"), 300);
     }
-  });
+
 
   requestAnimationFrame(update);
 }
@@ -115,3 +125,4 @@ function createBubble() {
 }
 
 setInterval(createBubble, 300);
+
