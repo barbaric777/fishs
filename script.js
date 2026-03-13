@@ -117,20 +117,24 @@ update();
 function createBubble() {
   const bubble = document.createElement("div");
   bubble.className = "bubble";
+  
 
-  const size = Math.random() * 40 + 100 + "px";
+  const size = Math.random() * 40 + 100 + "px"; 
   bubble.style.width = size;
   bubble.style.height = size;
-
   bubble.style.left = Math.random() * 100 + "vw";
-
   const duration = Math.random() * 4 + 3;
   bubble.style.animationDuration = duration + "s";
 
   ocean.appendChild(bubble);
-
-  setTimeout(() => {
-    bubble.remove();
-  }, duration * 1000);
+  setTimeout(() => bubble.remove(), duration * 1000);
 }
+
+
+for (let i = 0; i < 10; i++) spawnFish();
+setInterval(() => {
+  if (activeFishes.length < 10) spawnFish();
+}, 2500);
+setInterval(createBubble, 300);
+update();
 
