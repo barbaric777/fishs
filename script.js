@@ -11,11 +11,10 @@ const fishData = [
   { price: 10, speed: 1.5, img: "fish.png" },
   { price: 50, speed: 3, img: "fish2.png" },
   { price: 150, speed: 8, img: "fish3.png" },
-  { price: -500, speed: 5, img: "danger.png" } 
+  { price: -500, speed: 5, img: "danger.png", isDanger: true } 
 ];
 
 const activeFishes = [];
-
 
 const getX = (e) => (e.touches ? e.touches[0].clientX : e.clientX);
 
@@ -42,18 +41,25 @@ function spawnFish() {
   const type = fishData[Math.floor(Math.random() * fishData.length)];
   const el = document.createElement("div");
   el.className = "fish";
+  el.style.backgroundImage = `url('${type.img}')`;
+  
+
+  
+  ocean.appendChild(el);
+
   const fish = {
     el,
     x: Math.random() * (window.innerWidth - 100),
     y: 150 + Math.random() * (window.innerHeight - 300),
     dx: (Math.random() > 0.5 ? 1 : -1) * type.speed,
     price: type.price,
+    isDanger: type.isDanger,
+    spawnTime: Date.now() 
   };
   activeFishes.push(fish);
 }
 
 function update() {
-  
   if (isCasting) {
     hookY = Math.min(hookY + 8, window.innerHeight - 80);
   } else {
@@ -64,11 +70,18 @@ function update() {
   line.style.left = currentX + "px";
 
   const hRect = document.getElementById("hook").getBoundingClientRect();
+  const now = Date.now();
 
-  
   for (let i = activeFishes.length - 1; i >= 0; i--) {
     const fish = activeFishes[i];
     
+    if (fish.isDanger && (now - fish.spawnTime > 7000)) {
+      fish.el.style.opacity = "0";
+      setTimeout(() => fish.el.remove(), 300);
+      activeFishes.splice(i, 1);
+      continue;
+    }
+
     fish.x += fish.dx;
     if (fish.x < -150 || fish.x > window.innerWidth + 150) fish.dx *= -1;
 
@@ -83,15 +96,12 @@ function update() {
       hRect.top < fRect.bottom &&
       hRect.bottom > fRect.top
     ) {
-      
       balance += fish.price;
       moneyEl.innerText = balance;
-      
       
       moneyEl.style.color = fish.price < 0 ? "#ff4757" : "#2ecc71";
       setTimeout(() => (moneyEl.style.color = "white"), 400);
 
-     
       fish.el.remove();
       activeFishes.splice(i, 1);
     }
@@ -100,25 +110,20 @@ function update() {
   requestAnimationFrame(update);
 }
 
+for (let i = 0; i < 8; i++) spawnFish();
+setInterval(() => { if (activeFishes.length < 15) spawnFish(); }, 1500);
+update();
 
 function createBubble() {
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-  const size = Math.random() * 20 + 10 + "px";
+  const size = Math.random() * 15 + 5 + "px";
   bubble.style.width = size;
   bubble.style.height = size;
   bubble.style.left = Math.random() * 100 + "vw";
-  
   const duration = Math.random() * 3 + 4;
   bubble.style.animationDuration = duration + "s";
-  
   ocean.appendChild(bubble);
   setTimeout(() => bubble.remove(), duration * 1000);
 }
-
-
-for (let i = 0; i < 8; i++) spawnFish();
-setInterval(() => { if (activeFishes.length < 15) spawnFish(); }, 1500);
 setInterval(createBubble, 400);
-update();
-
