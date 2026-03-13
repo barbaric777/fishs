@@ -22,6 +22,7 @@ const startAction = (e) => {
 };
 
 const endAction = () => (isCasting = false);
+
 const updatePosition = (e) => {
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
   currentX = clientX;
@@ -71,58 +72,56 @@ function update() {
 
     const fRect = fish.el.getBoundingClientRect();
     
-       if (
+
+    if (
       hookY > 50 &&
       hRect.left < fRect.right &&
       hRect.right > fRect.left &&
       hRect.top < fRect.bottom &&
       hRect.bottom > fRect.top
     ) {
+      // Обновляем баланс
       balance += fish.price;
       moneyEl.innerText = balance;
+
       
-      // Логика цвета
       if (fish.price < 0) {
         moneyEl.style.color = "#ff4757"; 
       } else {
         moneyEl.style.color = "#2ecc71"; 
       }
 
+      
       fish.el.remove();
       activeFishes.splice(index, 1);
-    
+
+      
       setTimeout(() => (moneyEl.style.color = "white"), 300);
     }
-
+  });
 
   requestAnimationFrame(update);
 }
 
+
 for (let i = 0; i < 10; i++) spawnFish();
 setInterval(() => {
-  if (activeFishes.length < 8) spawnFish();
-}, 2500);
+  if (activeFishes.length < 12) spawnFish(); 
+}, 2000);
+
 update();
 
 function createBubble() {
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-
-  const size = Math.random() * 40 + 100 + "px";
+  const size = Math.random() * 40 + 100 + "px"; 
   bubble.style.width = size;
   bubble.style.height = size;
-
   bubble.style.left = Math.random() * 100 + "vw";
-
   const duration = Math.random() * 4 + 3;
   bubble.style.animationDuration = duration + "s";
-
   ocean.appendChild(bubble);
-
-  setTimeout(() => {
-    bubble.remove();
-  }, duration * 1000);
+  setTimeout(() => bubble.remove(), duration * 1000);
 }
 
 setInterval(createBubble, 300);
-
