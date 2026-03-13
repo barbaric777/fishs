@@ -75,7 +75,7 @@ function update() {
   for (let i = activeFishes.length - 1; i >= 0; i--) {
     const fish = activeFishes[i];
     
-    if (fish.isDanger && (now - fish.spawnTime > 7000)) {
+    if (fish.isDanger && (now - fish.spawnTime > 10000)) {
       fish.el.style.opacity = "0";
       setTimeout(() => fish.el.remove(), 300);
       activeFishes.splice(i, 1);
@@ -117,7 +117,7 @@ update();
 function createBubble() {
   const bubble = document.createElement("div");
   bubble.className = "bubble";
-  const size = Math.random() * 15 + 5 + "px";
+  const size = Math.random() * 40 + 100 + "px";
   bubble.style.width = size;
   bubble.style.height = size;
   bubble.style.left = Math.random() * 100 + "vw";
@@ -127,3 +127,4 @@ function createBubble() {
   setTimeout(() => bubble.remove(), duration * 1000);
 }
 setInterval(createBubble, 400);
+
