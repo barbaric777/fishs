@@ -8,10 +8,10 @@ let hookY = 0;
 let currentX = window.innerWidth / 2;
 
 const fishData = [
-  { price: 10, speed: 1.5, img: "fish.png" },
-  { price: 50, speed: 3, img: "fish2.png" },
-  { price: 150, speed: 8, img: "fish3.png" },
-  { price: -500, speed: 5, img: "danger.png", isDanger: true } 
+  { price: 10, speed: 1.5, img: "fish.png", type: "good" },
+  { price: 50, speed: 3, img: "fish2.png", type: "good" },
+  { price: 150, speed: 8, img: "fish3.png", type: "good" },
+  { price: -500, speed: 5, img: "danger.png", type: "bad" } 
 ];
 
 const activeFishes = [];
@@ -24,15 +24,14 @@ const startAction = (e) => {
 };
 
 const endAction = () => (isCasting = false);
-
 const updatePosition = (e) => {
   currentX = getX(e);
   if (!isCasting) line.style.left = currentX + "px";
 };
 
-window.addEventListener("touchstart", startAction, { passive: false });
+window.addEventListener("touchstart", startAction);
 window.addEventListener("touchend", endAction);
-window.addEventListener("touchmove", updatePosition, { passive: false });
+window.addEventListener("touchmove", updatePosition);
 window.addEventListener("mousedown", startAction);
 window.addEventListener("mouseup", endAction);
 window.addEventListener("mousemove", updatePosition);
@@ -42,53 +41,53 @@ function spawnFish() {
   const el = document.createElement("div");
   el.className = "fish";
   el.style.backgroundImage = `url('${type.img}')`;
-  
-
-  
   ocean.appendChild(el);
 
   const fish = {
     el,
     x: Math.random() * (window.innerWidth - 100),
-    y: 150 + Math.random() * (window.innerHeight - 300),
+    y: 100 + Math.random() * (window.innerHeight - 250),
     dx: (Math.random() > 0.5 ? 1 : -1) * type.speed,
     price: type.price,
-    isDanger: type.isDanger,
-    spawnTime: Date.now() 
+    isBad: type.type === "bad"
   };
+
+  
+  if (fish.isBad) {
+    setTimeout(() => {
+      const index = activeFishes.indexOf(fish);
+      if (index > -1) {
+        fish.el.style.opacity = "0"; 
+        setTimeout(() => {
+          fish.el.remove();
+          activeFishes.splice(index, 1);
+        }, 500);
+      }
+    }, 10000);
+  }
+
   activeFishes.push(fish);
 }
 
 function update() {
   if (isCasting) {
-    hookY = Math.min(hookY + 8, window.innerHeight - 80);
+    hookY = Math.min(hookY + 7, window.innerHeight - 60);
   } else {
-    hookY = Math.max(hookY - 12, 0);
+    hookY = Math.max(hookY - 10, 0);
   }
-  
   line.style.height = hookY + "px";
   line.style.left = currentX + "px";
 
   const hRect = document.getElementById("hook").getBoundingClientRect();
-  const now = Date.now();
 
   for (let i = activeFishes.length - 1; i >= 0; i--) {
     const fish = activeFishes[i];
-    
-    if (fish.isDanger && (now - fish.spawnTime > 10000)) {
-      fish.el.style.opacity = "0";
-      setTimeout(() => fish.el.remove(), 300);
-      activeFishes.splice(i, 1);
-      continue;
-    }
-
     fish.x += fish.dx;
-    if (fish.x < -150 || fish.x > window.innerWidth + 150) fish.dx *= -1;
+    if (fish.x < -100 || fish.x > window.innerWidth + 100) fish.dx *= -1;
 
     fish.el.style.transform = `translate(${fish.x}px, ${fish.y}px) scaleX(${fish.dx > 0 ? -1 : 1})`;
 
     const fRect = fish.el.getBoundingClientRect();
-
     if (
       hookY > 50 &&
       hRect.left < fRect.right &&
@@ -98,6 +97,7 @@ function update() {
     ) {
       balance += fish.price;
       moneyEl.innerText = balance;
+      
       
       moneyEl.style.color = fish.price < 0 ? "#ff4757" : "#2ecc71";
       setTimeout(() => (moneyEl.style.color = "white"), 400);
@@ -110,15 +110,11 @@ function update() {
   requestAnimationFrame(update);
 }
 
-for (let i = 0; i < 8; i++) spawnFish();
-setInterval(() => { if (activeFishes.length < 15) spawnFish(); }, 1500);
-update();
-
 function createBubble() {
   const bubble = document.createElement("div");
   bubble.className = "bubble";
   
-
+  
   const size = Math.random() * 40 + 100 + "px"; 
   bubble.style.width = size;
   bubble.style.height = size;
@@ -137,4 +133,3 @@ setInterval(() => {
 }, 2500);
 setInterval(createBubble, 300);
 update();
-
