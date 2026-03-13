@@ -42,11 +42,6 @@ function spawnFish() {
   const type = fishData[Math.floor(Math.random() * fishData.length)];
   const el = document.createElement("div");
   el.className = "fish";
-
-  el.style.backgroundImage = `url('${type.img}')`;
-  el.style.backgroundColor = type.price < 0 ? "rgba(255,0,0,0.3)" : "transparent"; 
-  ocean.appendChild(el);
-
   const fish = {
     el,
     x: Math.random() * (window.innerWidth - 100),
@@ -126,3 +121,4 @@ for (let i = 0; i < 8; i++) spawnFish();
 setInterval(() => { if (activeFishes.length < 15) spawnFish(); }, 1500);
 setInterval(createBubble, 400);
 update();
+
